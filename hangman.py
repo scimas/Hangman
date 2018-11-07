@@ -89,7 +89,7 @@ while not q:
             print()
             print("Would you like to play again?")
             play_again = input("y/Y for yes, n/N for no: ").lower()
-            if play_again == 'n':
+            if play_again == "n":
                 q = True
             break
 
@@ -106,7 +106,7 @@ while not q:
         print()
         print("Would you like to play again?")
         play_again = input("y/Y for yes, n/N for no: ").lower()
-        if play_again == 'n':
+        if play_again == "n":
             q = True
 
 print("See you later!")
