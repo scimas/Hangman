@@ -6,6 +6,37 @@ with open("phrases.txt") as infile:
 
 used_phrases = []
 q = False
+wins = 0
+loss = 0
+
+def choose_phrase():
+    valid_phrase = False
+    while not valid_phrase:
+        phrase = phrase_list[random.randrange(len(phrase_list))].strip()
+        if phrase not in used_phrases:
+            used_phrases.append(phrase)
+            valid_phrase = True
+
+    return phrase
+
+def create_guessed_phrase(phrase):
+    guessed_phrase = ""
+    for m in re.finditer("\W", phrase, flags = re.ASCII):
+        guessed_phrase += "_" * (m.start() - len(guessed_phrase)) + phrase[m.start()]
+    guessed_phrase += "_" * (len(phrase) - len(guessed_phrase))
+
+    return guessed_phrase
+
+def take_guess(used_characters):
+    valid_input = False
+    while not valid_input:
+        guess = input("Make a guess: ")
+        if guess not in used_characters and len(guess) == 1:
+            used_characters.append(guess)
+            guess = "[" + guess + "]"
+            valid_input = True
+
+    return guess
 
 print("Welcome to Hangman!")
 print()
@@ -22,18 +53,10 @@ while not q:
         print("Bye, do some work now!")
         break
 
-    valid_phrase = False
-    while not valid_phrase:
-        phrase = phrase_list[random.randrange(len(phrase_list))].strip()
-        if phrase not in used_phrases:
-            used_phrases.append(phrase)
-            valid_phrase = True
+    phrase = choose_phrase()
 
     compare_phrase = phrase.lower()
-    guessed_phrase = ""
-    for word in phrase.split():
-        guessed_phrase += "_" * len(word) + " "
-    guessed_phrase = guessed_phrase.strip()
+    guessed_phrase = create_guessed_phrase(phrase)
 
     remaining_guesses = 7
     used_characters = []
@@ -43,14 +66,7 @@ while not q:
         print(guessed_phrase)
         print()
 
-        valid_input = False
-        while not valid_input:
-            guess = input("Make a guess: ")
-            if guess not in used_characters and len(guess) == 1:
-                used_characters.append(guess)
-                guess = "[" + guess + "]"
-                valid_input = True
-
+        guess = take_guess(used_characters)
         if re.search(guess, compare_phrase):
             new_guess = ""
             for m in re.finditer(guess, compare_phrase):
@@ -63,24 +79,34 @@ while not q:
             print()
 
         if guessed_phrase.lower() == compare_phrase:
+            wins += 1
             print(phrase)
             print("Congratulations, you guessed it!")
             print()
+            print("Your score is:")
+            print("Wins \t\t Losses")
+            print(wins, " \t\t ", loss)
+            print()
             print("Would you like to play again?")
             play_again = input("y/Y for yes, n/N for no: ").lower()
-            if play_again != 'y':
+            if play_again == 'n':
                 q = True
-                print("See you later!")
             break
 
     if remaining_guesses == 0:
+        loss += 1
         print("Haha, you lost :D")
         print("This was the correct answer:")
         print()
         print(phrase)
         print()
+        print("Your score is:")
+        print("Wins \t\t Losses")
+        print(wins, " \t\t ", loss)
+        print()
         print("Would you like to play again?")
         play_again = input("y/Y for yes, n/N for no: ").lower()
-        if play_again != 'y':
+        if play_again == 'n':
             q = True
-            print("See you later!")
+
+print("See you later!")
