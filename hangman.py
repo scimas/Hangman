@@ -9,6 +9,7 @@ q = False
 wins = 0
 loss = 0
 
+
 def choose_phrase():
     valid_phrase = False
     while not valid_phrase:
@@ -19,13 +20,16 @@ def choose_phrase():
 
     return phrase
 
+
 def create_guessed_phrase(phrase):
     guessed_phrase = ""
-    for m in re.finditer("\W", phrase, flags = re.ASCII):
-        guessed_phrase += "_" * (m.start() - len(guessed_phrase)) + phrase[m.start()]
+    for m in re.finditer(r"\W", phrase, flags=re.ASCII):
+        guessed_phrase += "_" * (m.start() - len(guessed_phrase)) + \
+                            phrase[m.start()]
     guessed_phrase += "_" * (len(phrase) - len(guessed_phrase))
 
     return guessed_phrase
+
 
 def take_guess(used_characters):
     valid_input = False
@@ -37,6 +41,7 @@ def take_guess(used_characters):
             valid_input = True
 
     return guess
+
 
 print("Welcome to Hangman!")
 print()
@@ -70,7 +75,8 @@ while not q:
         if re.search(guess, compare_phrase):
             new_guess = ""
             for m in re.finditer(guess, compare_phrase):
-                new_guess += guessed_phrase[len(new_guess) : m.start()] + phrase[m.start()]
+                new_guess += guessed_phrase[len(new_guess): m.start()] + \
+                                phrase[m.start()]
             new_guess += guessed_phrase[len(new_guess):]
             guessed_phrase = new_guess
         else:
