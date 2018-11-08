@@ -75,7 +75,7 @@ while not q:
         if re.search(guess, compare_phrase):
             new_guess = ""
             for m in re.finditer(guess, compare_phrase):
-                new_guess += guessed_phrase[len(new_guess): m.start()] + \
+                new_guess += guessed_phrase[len(new_guess) : m.start()] + \
                                 phrase[m.start()]
             new_guess += guessed_phrase[len(new_guess):]
             guessed_phrase = new_guess
