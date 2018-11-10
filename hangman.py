@@ -24,8 +24,8 @@ def choose_phrase():
 def create_guessed_phrase(phrase):
     guessed_phrase = ""
     for m in re.finditer(r"\W", phrase, flags=re.ASCII):
-        guessed_phrase += "_" * (m.start() - len(guessed_phrase)) + \
-                            phrase[m.start()]
+        guessed_phrase += "_" * \
+            (m.start() - len(guessed_phrase)) + phrase[m.start()]
     guessed_phrase += "_" * (len(phrase) - len(guessed_phrase))
 
     return guessed_phrase
@@ -75,8 +75,7 @@ while not q:
         if re.search(guess, compare_phrase):
             new_guess = ""
             for m in re.finditer(guess, compare_phrase):
-                new_guess += guessed_phrase[len(new_guess) : m.start()] + \
-                                phrase[m.start()]
+                new_guess += guessed_phrase[len(new_guess): m.start()] + phrase[m.start()]
             new_guess += guessed_phrase[len(new_guess):]
             guessed_phrase = new_guess
         else:
