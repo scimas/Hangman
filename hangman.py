@@ -36,6 +36,7 @@ def take_guess(used_characters):
     while not valid_input:
         guess = input("Make a guess: ")
         if guess not in used_characters and len(guess) == 1:
+            guess = guess.lower()
             used_characters.append(guess)
             guess = "[" + guess + "]"
             valid_input = True
